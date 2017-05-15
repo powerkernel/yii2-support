@@ -1,0 +1,248 @@
+<?php
+/**
+ * @author Harry Tang <harry@modernkernel.com>
+ * @link https://modernkernel.com
+ * @copyright Copyright (c) 2017 Modern Kernel
+ */
+
+namespace modernkernel\ticket\models;
+
+use common\models\Account;
+use common\models\Setting;
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+
+/**
+ * This is the model class for table "ticket_id".
+ *
+ * @property integer $id
+ * @property integer $cat
+ * @property string $title
+ * @property integer $status
+ * @property integer $created_by
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property Content[] $contents
+ * @property Cat $category
+ * @property Account $createdBy
+ */
+class Ticket extends ActiveRecord
+{
+
+
+    const STATUS_OPEN = 10;
+    const STATUS_WAITING = 20;
+    const STATUS_CLOSED = 30;
+
+    public $content;
+
+
+    /**
+     * get status list
+     * @param null $e
+     * @return array
+     */
+    public static function getStatusOption($e = null)
+    {
+        $option = [
+            self::STATUS_OPEN => Yii::$app->getModule('ticket')->t('Open'),
+            self::STATUS_WAITING => Yii::$app->getModule('ticket')->t('Waiting'),
+            self::STATUS_CLOSED => Yii::$app->getModule('ticket')->t('Closed'),
+        ];
+        if (is_array($e))
+            foreach ($e as $i)
+                unset($option[$i]);
+        return $option;
+    }
+
+    /**
+     * get status text
+     * @return string
+     */
+    public function getStatusText()
+    {
+        $status = $this->status;
+        $list = self::getStatusOption();
+        if (!empty($status) && in_array($status, array_keys($list))) {
+            return $list[$status];
+        }
+        return Yii::$app->getModule('ticket')->t('Unknown');
+    }
+
+    /**
+     * get status text
+     * @return string
+     */
+    public function getStatusColorText(){
+        $status = $this->status;
+        $list = self::getStatusOption();
+
+        $color='default';
+        if($status==self::STATUS_CLOSED){
+            $color='danger';
+        }
+        if($status==self::STATUS_OPEN){
+            $color='primary';
+        }
+        if($status==self::STATUS_WAITING){
+            $color='warning';
+        }
+
+        if (!empty($status) && in_array($status, array_keys($list))) {
+            return '<span class="label label-'.$color.'">'.$list[$status].'</span>';
+        }
+        return '<span class="label label-'.$color.'">'.Yii::$app->getModule('ticket')->t('Unknown').'</span>';
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'ticket_id';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['cat', 'status', 'created_by', 'created_at', 'updated_at'], 'integer'],
+            [['title', 'cat',], 'required'],
+            [['title'], 'string', 'max' => 255],
+            [['cat'], 'exist', 'skipOnError' => true, 'targetClass' => Cat::className(), 'targetAttribute' => ['cat' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => 'id']],
+
+            /* custom */
+            [['content'], 'required', 'on' => ['create']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::$app->getModule('ticket')->t('ID'),
+            'cat' => Yii::$app->getModule('ticket')->t('Category'),
+            'title' => Yii::$app->getModule('ticket')->t('Title'),
+            'content' => Yii::$app->getModule('ticket')->t('Content'),
+            'status' => Yii::$app->getModule('ticket')->t('Status'),
+            'created_by' => Yii::$app->getModule('ticket')->t('Created By'),
+            'created_at' => Yii::$app->getModule('ticket')->t('Created At'),
+            'updated_at' => Yii::$app->getModule('ticket')->t('Updated At'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContents()
+    {
+        return $this->hasMany(Content::className(), ['id_ticket' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Cat::className(), ['id' => 'cat']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreatedBy()
+    {
+        return $this->hasOne(Account::className(), ['id' => 'created_by']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->created_by = Yii::$app->user->id;
+        }
+        return parent::beforeSave($insert); // TODO: Change the autogenerated stub
+    }
+
+    /**
+     * @inheritdoc
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            $ticketContent = new Content();
+            $ticketContent->id_ticket = $this->id;
+            $ticketContent->content = $this->content;
+            $ticketContent->created_by = Yii::$app->user->id;
+            if($ticketContent->save()){
+                /* send email */
+                $subject=Yii::$app->getModule('ticket')->t('You\'ve received a ticket');
+                Yii::$app->mailer
+                    ->compose(
+                        [
+                            'html' => 'new-ticket-html',
+                            'text' => 'new-ticket-text'
+                        ],
+                        ['title' => $subject, 'model' => $this]
+                    )
+                    ->setFrom([Setting::getValue('outgoingMail') => Yii::$app->name])
+                    ->setTo(Setting::getValue('adminMail'))
+                    ->setSubject($subject)
+                    ->send();
+            }
+        }
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+    }
+
+    /**
+     * get ticket url
+     * @param bool $absolute
+     */
+    public function getUrl($absolute=false){
+        $act='createUrl';
+        if($absolute){
+            $act='createAbsoluteUrl';
+        }
+        return Yii::$app->urlManagerFrontend->$act(['/ticket/ticket/view', 'id'=>$this->id]);
+    }
+
+    /**
+     * system closes ticket
+     */
+    public function close(){
+        if($this->status!=Ticket::STATUS_CLOSED){
+            $post=new Content();
+            $post->id_ticket=$this->id;
+            $post->created_by=null;
+            $post->content=Yii::$app->getModule('ticket')->t('Ticket was closed automatically due to inactivity.');
+            if($post->save()){
+                $this->status=Ticket::STATUS_CLOSED;
+                $this->save();
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "modernkernel/yii2-support",
+    "description": "Yii2 Support Ticket System",
+    "type": "yii2-extension",
+    "keywords": ["yii2","support", "ticket"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Harry Tang",
+            "email": "harry@modernkernel.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "modernkernel\\support\\": ""
+        }
+    }
+}
