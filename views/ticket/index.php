@@ -1,14 +1,13 @@
 <?php
 
-use modernkernel\ticket\models\Cat;
-use modernkernel\ticket\models\Ticket;
-use yii\helpers\Html;
+use modernkernel\support\models\Cat;
+use modernkernel\support\models\Ticket;
 use yii\grid\GridView;
 use yii\jui\DatePicker;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel modernkernel\ticket\models\TicketSearch */
+/* @var $searchModel modernkernel\support\models\TicketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 

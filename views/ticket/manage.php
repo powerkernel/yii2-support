@@ -1,14 +1,14 @@
 <?php
 
-use modernkernel\ticket\models\Cat;
-use modernkernel\ticket\models\Ticket;
+use modernkernel\support\models\Cat;
+use modernkernel\support\models\Ticket;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\jui\DatePicker;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel modernkernel\ticket\models\TicketSearch */
+/* @var $searchModel modernkernel\support\models\TicketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 
@@ -63,7 +63,7 @@ $this->registerJs('$(document).on("pjax:send", function(){ $(".grid-view-overlay
             </div>
             <?php Pjax::end(); ?>
             <p>
-                <?= Html::a(Yii::t('ticket', 'Open Ticket'), ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a(Yii::t('support', 'Open Ticket'), ['create'], ['class' => 'btn btn-success']) ?>
             </p>
 
         </div>

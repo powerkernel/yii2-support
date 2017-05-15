@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2017 Modern Kernel
  */
 
-namespace modernkernel\ticket\models;
+namespace modernkernel\support\models;
 
 use common\models\Account;
 use common\models\Setting;
@@ -42,8 +42,8 @@ class Content extends ActiveRecord
     public static function getStatusOption($e = null)
     {
         $option = [
-            self::STATUS_ACTIVE => Yii::$app->getModule('ticket')->t('Active'),
-            self::STATUS_INACTIVE => Yii::$app->getModule('ticket')->t('Inactive'),
+            self::STATUS_ACTIVE => Yii::$app->getModule('support')->t('Active'),
+            self::STATUS_INACTIVE => Yii::$app->getModule('support')->t('Inactive'),
         ];
         if (is_array($e))
             foreach ($e as $i)
@@ -62,7 +62,7 @@ class Content extends ActiveRecord
         if (!empty($status) && in_array($status, array_keys($list))) {
             return $list[$status];
         }
-        return Yii::$app->getModule('ticket')->t('Unknown');
+        return Yii::$app->getModule('support')->t('Unknown');
     }
 
 
@@ -71,7 +71,7 @@ class Content extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'ticket_content';
+        return '{{%support_ticket_content}}';
     }
 
     /**
@@ -94,12 +94,12 @@ class Content extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::$app->getModule('ticket')->t('ID'),
-            'id_ticket' => Yii::$app->getModule('ticket')->t('Id Ticket'),
-            'content' => Yii::$app->getModule('ticket')->t('Content'),
-            'created_by' => Yii::$app->getModule('ticket')->t('Created By'),
-            'created_at' => Yii::$app->getModule('ticket')->t('Created At'),
-            'updated_at' => Yii::$app->getModule('ticket')->t('Updated At'),
+            'id' => Yii::$app->getModule('support')->t('ID'),
+            'id_ticket' => Yii::$app->getModule('support')->t('Id Ticket'),
+            'content' => Yii::$app->getModule('support')->t('Content'),
+            'created_by' => Yii::$app->getModule('support')->t('Created By'),
+            'created_at' => Yii::$app->getModule('support')->t('Created At'),
+            'updated_at' => Yii::$app->getModule('support')->t('Updated At'),
         ];
     }
 
@@ -146,7 +146,7 @@ class Content extends ActiveRecord
             }
 
             /* send email */
-            $subject = Yii::$app->getModule('ticket')->t('[{APP} Ticket #{ID}] Re: {TITLE}', ['APP' => Yii::$app->name, 'ID' => $this->ticket->id, 'TITLE' => $this->ticket->title]);
+            $subject = Yii::$app->getModule('support')->t('[{APP} Ticket #{ID}] Re: {TITLE}', ['APP' => Yii::$app->name, 'ID' => $this->ticket->id, 'TITLE' => $this->ticket->title]);
             Yii::$app->mailer
                 ->compose(
                     [

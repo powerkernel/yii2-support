@@ -9,9 +9,9 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\Cat */
+/* @var $model modernkernel\support\models\Cat */
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('ticket', 'Cats'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 /* misc */
@@ -36,11 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
             </div>
             <p>
-                <?= Html::a(Yii::t('ticket', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a(Yii::t('ticket', 'Delete'), ['delete', 'id' => $model->id], [
+                <?= Html::a(Yii::t('support', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('support', 'Delete'), ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
-                'confirm' => Yii::t('ticket', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('support', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
                 ],
                 ]) ?>

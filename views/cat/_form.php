@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'status')->dropDownList(Cat::getStatusOption()) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('ticket', 'Create') : Yii::t('ticket', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('support', 'Create') : Yii::t('support', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

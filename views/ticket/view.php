@@ -6,16 +6,16 @@
  */
 
 use modernkernel\fontawesome\Icon;
-use modernkernel\ticket\models\Ticket;
+use modernkernel\support\models\Ticket;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\Ticket */
-/* @var $reply modernkernel\ticket\models\Content */
+/* @var $model modernkernel\support\models\Ticket */
+/* @var $reply modernkernel\support\models\Content */
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('ticket', 'Tickets'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 /* misc */
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </h1>
 
             <div class="pull-right">
-                <?= Yii::$app->getModule('ticket')->t('Status: {STATUS}', ['STATUS' => $model->getStatusColorText()]) ?>
+                <?= Yii::$app->getModule('support')->t('Status: {STATUS}', ['STATUS' => $model->getStatusColorText()]) ?>
             </div>
 
         </div>
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div class="timeline-item">
                             <span class="time"><?= Icon::widget(['icon' => 'clock-o']) ?> <?= Yii::$app->formatter->asDatetime($post->created_at) ?></span>
-                            <h3 class="timeline-header"><?= !empty($post->created_by) ? $post->createdBy->fullname : Yii::$app->getModule('ticket')->t('Ticket System') ?></h3>
+                            <h3 class="timeline-header"><?= !empty($post->created_by) ? $post->createdBy->fullname : Yii::$app->getModule('support')->t('Ticket System') ?></h3>
                             <div class="timeline-body">
                                 <?= Yii::$app->formatter->asNtext($post->content) ?>
                             </div>
@@ -65,9 +65,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($reply, 'content')->textarea(['rows' => 8])->label(false) ?>
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('ticket', 'Reply'), ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton(Yii::t('support', 'Reply'), ['class' => 'btn btn-primary']) ?>
                     <?php if($model->status!=Ticket::STATUS_CLOSED):?>
-                    <?= Html::a(Yii::t('ticket', 'Close'), ['close', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+                    <?= Html::a(Yii::t('support', 'Close'), ['close', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
                     <?php endif;?>
                 </div>
                 <?php ActiveForm::end(); ?>

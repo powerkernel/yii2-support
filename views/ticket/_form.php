@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2016 Modern Kernel
  */
 
-use modernkernel\ticket\models\Cat;
+use modernkernel\support\models\Cat;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\Ticket */
+/* @var $model modernkernel\support\models\Ticket */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'content')->textarea(['rows'=>8]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('ticket', 'Open') : Yii::t('ticket', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('support', 'Open') : Yii::t('support', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

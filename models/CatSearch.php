@@ -6,12 +6,10 @@
  */
 
 
-namespace modernkernel\ticket\models;
+namespace modernkernel\support\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use modernkernel\ticket\models\Cat;
 
 /**
  * CatSearch represents the model behind the search form about `modernkernel\ticket\models\Cat`.

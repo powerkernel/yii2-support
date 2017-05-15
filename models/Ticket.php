@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2017 Modern Kernel
  */
 
-namespace modernkernel\ticket\models;
+namespace modernkernel\support\models;
 
 use common\models\Account;
 use common\models\Setting;
@@ -47,9 +47,9 @@ class Ticket extends ActiveRecord
     public static function getStatusOption($e = null)
     {
         $option = [
-            self::STATUS_OPEN => Yii::$app->getModule('ticket')->t('Open'),
-            self::STATUS_WAITING => Yii::$app->getModule('ticket')->t('Waiting'),
-            self::STATUS_CLOSED => Yii::$app->getModule('ticket')->t('Closed'),
+            self::STATUS_OPEN => Yii::$app->getModule('support')->t('Open'),
+            self::STATUS_WAITING => Yii::$app->getModule('support')->t('Waiting'),
+            self::STATUS_CLOSED => Yii::$app->getModule('support')->t('Closed'),
         ];
         if (is_array($e))
             foreach ($e as $i)
@@ -68,7 +68,7 @@ class Ticket extends ActiveRecord
         if (!empty($status) && in_array($status, array_keys($list))) {
             return $list[$status];
         }
-        return Yii::$app->getModule('ticket')->t('Unknown');
+        return Yii::$app->getModule('support')->t('Unknown');
     }
 
     /**
@@ -93,7 +93,7 @@ class Ticket extends ActiveRecord
         if (!empty($status) && in_array($status, array_keys($list))) {
             return '<span class="label label-'.$color.'">'.$list[$status].'</span>';
         }
-        return '<span class="label label-'.$color.'">'.Yii::$app->getModule('ticket')->t('Unknown').'</span>';
+        return '<span class="label label-'.$color.'">'.Yii::$app->getModule('support')->t('Unknown').'</span>';
     }
 
 
@@ -102,7 +102,7 @@ class Ticket extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'ticket_id';
+        return '{{%support_ticket_head}}';
     }
 
     /**
@@ -128,14 +128,14 @@ class Ticket extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::$app->getModule('ticket')->t('ID'),
-            'cat' => Yii::$app->getModule('ticket')->t('Category'),
-            'title' => Yii::$app->getModule('ticket')->t('Title'),
-            'content' => Yii::$app->getModule('ticket')->t('Content'),
-            'status' => Yii::$app->getModule('ticket')->t('Status'),
-            'created_by' => Yii::$app->getModule('ticket')->t('Created By'),
-            'created_at' => Yii::$app->getModule('ticket')->t('Created At'),
-            'updated_at' => Yii::$app->getModule('ticket')->t('Updated At'),
+            'id' => Yii::$app->getModule('support')->t('ID'),
+            'cat' => Yii::$app->getModule('support')->t('Category'),
+            'title' => Yii::$app->getModule('support')->t('Title'),
+            'content' => Yii::$app->getModule('support')->t('Content'),
+            'status' => Yii::$app->getModule('support')->t('Status'),
+            'created_by' => Yii::$app->getModule('support')->t('Created By'),
+            'created_at' => Yii::$app->getModule('support')->t('Created At'),
+            'updated_at' => Yii::$app->getModule('support')->t('Updated At'),
         ];
     }
 
@@ -200,7 +200,7 @@ class Ticket extends ActiveRecord
             $ticketContent->created_by = Yii::$app->user->id;
             if($ticketContent->save()){
                 /* send email */
-                $subject=Yii::$app->getModule('ticket')->t('You\'ve received a ticket');
+                $subject=Yii::$app->getModule('support')->t('You\'ve received a ticket');
                 Yii::$app->mailer
                     ->compose(
                         [
@@ -238,7 +238,7 @@ class Ticket extends ActiveRecord
             $post=new Content();
             $post->id_ticket=$this->id;
             $post->created_by=null;
-            $post->content=Yii::$app->getModule('ticket')->t('Ticket was closed automatically due to inactivity.');
+            $post->content=Yii::$app->getModule('support')->t('Ticket was closed automatically due to inactivity.');
             if($post->save()){
                 $this->status=Ticket::STATUS_CLOSED;
                 $this->save();

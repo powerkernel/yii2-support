@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2017 Modern Kernel
  */
 
-namespace modernkernel\ticket\models;
+namespace modernkernel\support\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -40,8 +40,8 @@ class Cat extends ActiveRecord
     public static function getStatusOption($e = null)
     {
         $option = [
-            self::STATUS_ACTIVE => Yii::$app->getModule('ticket')->t('Active'),
-            self::STATUS_INACTIVE => Yii::$app->getModule('ticket')->t('Inactive'),
+            self::STATUS_ACTIVE => Yii::$app->getModule('support')->t('Active'),
+            self::STATUS_INACTIVE => Yii::$app->getModule('support')->t('Inactive'),
         ];
         if (is_array($e))
             foreach ($e as $i)
@@ -60,7 +60,7 @@ class Cat extends ActiveRecord
         if (!empty($status) && in_array($status, array_keys($list))) {
             return $list[$status];
         }
-        return Yii::$app->getModule('ticket')->t('Unknown');
+        return Yii::$app->getModule('support')->t('Unknown');
     }
 
 
@@ -69,7 +69,7 @@ class Cat extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%ticket_cat}}';
+        return '{{%support_cat}}';
     }
 
     /**
@@ -90,11 +90,11 @@ class Cat extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::$app->getModule('ticket')->t('ID'),
-            'title' => Yii::$app->getModule('ticket')->t('Title'),
-            'status' => Yii::$app->getModule('ticket')->t('Status'),
-            'created_at' => Yii::$app->getModule('ticket')->t('Created At'),
-            'updated_at' => Yii::$app->getModule('ticket')->t('Updated At'),
+            'id' => Yii::$app->getModule('support')->t('ID'),
+            'title' => Yii::$app->getModule('support')->t('Title'),
+            'status' => Yii::$app->getModule('support')->t('Status'),
+            'created_at' => Yii::$app->getModule('support')->t('Created At'),
+            'updated_at' => Yii::$app->getModule('support')->t('Updated At'),
         ];
     }
 
@@ -123,7 +123,7 @@ class Cat extends ActiveRecord
     public static function getCatList(){
         $q = (new Query())
             ->select('id, title')
-            ->from('{{%ticket_cat}}')
+            ->from('{{%support_cat}}')
             ->where(['status'=>Cat::STATUS_ACTIVE])
             ->addOrderBy('title');
         return ArrayHelper::map($q->all(), 'id', 'title');

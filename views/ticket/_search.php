@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\TicketSearch */
+/* @var $model modernkernel\support\models\TicketSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -35,8 +35,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('ticket', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('ticket', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('support', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('support', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

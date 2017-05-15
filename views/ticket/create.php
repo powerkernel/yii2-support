@@ -6,11 +6,11 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\Ticket */
+/* @var $model modernkernel\support\models\Ticket */
 
 
 /* breadcrumbs */
-$this->params['breadcrumbs'][] = ['label' => Yii::t('ticket', 'Tickets'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 /* misc */

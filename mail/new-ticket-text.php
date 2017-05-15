@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model \modernkernel\ticket\models\Ticket */
+/* @var $model \modernkernel\support\models\Ticket */
 ?>
 
-<?= Yii::$app->getModule('ticket')->t('Hello Admin,') ?>
+<?= Yii::$app->getModule('support')->t('Hello Admin,') ?>
 
-<?= Yii::$app->getModule('ticket')->t('{USER} ({EMAIL}) have opened a ticket with the following message:', [
+<?= Yii::$app->getModule('support')->t('{USER} ({EMAIL}) have opened a ticket with the following message:', [
         'USER' => Html::encode($model->createdBy->fullname),
         'EMAIL' => Html::encode($model->createdBy->email)]) ?>
 
@@ -19,4 +19,4 @@ use yii\helpers\Html;
 
 
 
-<?= Yii::$app->getModule('ticket')->t('View Ticket: {URL}', ['URL'=>$model->getUrl(true)]) ?>
+<?= Yii::$app->getModule('support')->t('View Ticket: {URL}', ['URL'=>$model->getUrl(true)]) ?>

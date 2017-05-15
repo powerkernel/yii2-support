@@ -18,7 +18,7 @@ class m170511_080718_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%ticket_cat}}', [
+        $this->createTable('{{%support_cat}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
@@ -26,7 +26,7 @@ class m170511_080718_init extends Migration
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
 
-        $this->createTable('{{%ticket_id}}', [
+        $this->createTable('{{%support_ticket_head}}', [
             'id' => $this->primaryKey(),
             'cat'=> $this->integer()->null()->defaultValue(null),
             'title' => $this->string()->notNull(),
@@ -35,10 +35,10 @@ class m170511_080718_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
-        $this->addForeignKey('fk_ticket_id_created_by-core_account_id', '{{%ticket_id}}', 'created_by', '{{%core_account}}', 'id');
-        $this->addForeignKey('fk_ticket_id_cat-ticket_cat_id', '{{%ticket_id}}', 'cat', '{{%ticket_cat}}', 'id');
+        $this->addForeignKey('fk_support_ticket_head_created_by-core_account_id', '{{%support_ticket_head}}', 'created_by', '{{%core_account}}', 'id');
+        $this->addForeignKey('fk_support_ticket_head_cat-support_cat_id', '{{%support_ticket_head}}', 'cat', '{{%support_cat}}', 'id');
 
-        $this->createTable('{{%ticket_content}}', [
+        $this->createTable('{{%support_ticket_content}}', [
             'id' => $this->primaryKey(),
             'id_ticket' => $this->integer()->notNull(),
             'content' => $this->text()->notNull(),
@@ -46,8 +46,8 @@ class m170511_080718_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
-        $this->addForeignKey('fk_ticket_content_id-ticket_id_id', '{{%ticket_content}}', 'id_ticket', '{{%ticket_id}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_ticket_content_created_by-core_account_id', '{{%ticket_content}}', 'created_by', '{{%core_account}}', 'id');
+        $this->addForeignKey('fk_support_ticket_content_id-support_ticket_head_id', '{{%support_ticket_content}}', 'id_ticket', '{{%support_ticket_head}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_support_ticket_content_created_by-core_account_id', '{{%support_ticket_content}}', 'created_by', '{{%core_account}}', 'id');
     }
 
     /**
@@ -55,15 +55,15 @@ class m170511_080718_init extends Migration
      */
     public function down()
     {
-        $this->dropForeignKey('fk_ticket_content_created_by-core_account_id', '{{%ticket_content}}');
-        $this->dropForeignKey('fk_ticket_content_id-ticket_id_id', '{{%ticket_content}}');
-        $this->dropTable('{{%ticket_content}}');
+        $this->dropForeignKey('fk_support_ticket_content_created_by-core_account_id', '{{%support_ticket_content}}');
+        $this->dropForeignKey('fk_support_ticket_content_id-support_ticket_head_id', '{{%support_ticket_content}}');
+        $this->dropTable('{{%support_ticket_content}}');
 
-        $this->dropForeignKey('fk_ticket_id_cat-ticket_cat_id', '{{%ticket_id}}');
-        $this->dropForeignKey('fk_ticket_id_created_by-core_account_id', '{{%ticket_id}}');
-        $this->dropTable('{{%ticket_id}}');
+        $this->dropForeignKey('fk_support_ticket_head_cat-support_cat_id', '{{%support_ticket_head}}');
+        $this->dropForeignKey('fk_support_ticket_head_created_by-core_account_id', '{{%support_ticket_head}}');
+        $this->dropTable('{{%support_ticket_head}}');
 
-        $this->dropTable('{{%ticket_cat}}');
+        $this->dropTable('{{%support_cat}}');
     }
 
 }

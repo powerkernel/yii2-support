@@ -1,6 +1,6 @@
 <?php
 
-namespace modernkernel\ticket\controllers;
+namespace modernkernel\support\controllers;
 
 use backend\controllers\BackendController;
 

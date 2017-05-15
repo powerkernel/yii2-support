@@ -6,12 +6,12 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\ticket\models\Cat */
+/* @var $model modernkernel\support\models\Cat */
 
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('ticket', 'Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('ticket', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('support', 'Update');
 
 /* misc */
 //$js=file_get_contents(__DIR__.'/index.min.js');

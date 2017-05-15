@@ -6,12 +6,11 @@
  */
 
 
-namespace modernkernel\ticket\models;
+namespace modernkernel\support\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use modernkernel\ticket\models\Ticket;
 
 /**
  * TicketSearch represents the model behind the search form about `modernkernel\ticket\models\Ticket`.

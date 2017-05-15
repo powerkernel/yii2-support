@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2016 Modern Kernel
  */
 
-namespace modernkernel\ticket\controllers;
+namespace modernkernel\support\controllers;
 
 use backend\controllers\BackendController;
 use Yii;
-use modernkernel\ticket\models\Cat;
-use modernkernel\ticket\models\CatSearch;
+use modernkernel\support\models\Cat;
+use modernkernel\support\models\CatSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -40,7 +40,7 @@ class CatController extends BackendController
      */
     public function actionIndex()
     {
-        $this->view->title = Yii::t('ticket', 'Categories');
+        $this->view->title = Yii::t('support', 'Categories');
         $searchModel = new CatSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -61,7 +61,7 @@ class CatController extends BackendController
 
         /* metaData */
         //$title=$model->title;
-        $this->view->title = Yii::t('ticket', 'Category: {NAME}', ['NAME'=>$model->title]);
+        $this->view->title = Yii::t('support', 'Category: {NAME}', ['NAME'=>$model->title]);
         //$keywords = $model->tags;
         //$description = $model->desc;
         //$metaTags[]=['name'=>'keywords', 'content'=>$keywords];
@@ -139,7 +139,7 @@ class CatController extends BackendController
      */
     public function actionCreate()
     {
-        $this->view->title = Yii::t('ticket', 'Add Category');
+        $this->view->title = Yii::t('support', 'Add Category');
         $model = new Cat();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -160,7 +160,7 @@ class CatController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $this->view->title = Yii::t('ticket', 'Update: {NAME}', ['NAME'=>$model->title]);
+        $this->view->title = Yii::t('support', 'Update: {NAME}', ['NAME'=>$model->title]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

@@ -5,13 +5,13 @@
  * @copyright Copyright (c) 2016 Modern Kernel
  */
 
-namespace modernkernel\ticket\controllers;
+namespace modernkernel\support\controllers;
 
 use common\components\BackendFilter;
-use modernkernel\ticket\models\Content;
+use modernkernel\support\models\Content;
 use Yii;
-use modernkernel\ticket\models\Ticket;
-use modernkernel\ticket\models\TicketSearch;
+use modernkernel\support\models\Ticket;
+use modernkernel\support\models\TicketSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -66,7 +66,7 @@ class TicketController extends Controller
     public function actionIndex()
     {
 
-        $this->view->title = Yii::t('ticket', 'Tickets');
+        $this->view->title = Yii::t('support', 'Tickets');
         $searchModel = new TicketSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -84,7 +84,7 @@ class TicketController extends Controller
     {
 
         $this->layout = Yii::$app->view->theme->basePath . '/account.php';
-        $this->view->title = Yii::t('ticket', 'My Tickets');
+        $this->view->title = Yii::t('support', 'My Tickets');
         $searchModel = new TicketSearch(['userSearch'=>true]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -213,7 +213,7 @@ class TicketController extends Controller
     public function actionCreate()
     {
         $this->layout = Yii::$app->view->theme->basePath . '/account.php';
-        $this->view->title = Yii::t('ticket', 'Open Ticket');
+        $this->view->title = Yii::t('support', 'Open Ticket');
         $model = new Ticket();
         $model->setScenario('create');
 
@@ -242,7 +242,7 @@ class TicketController extends Controller
             $post=new Content();
             $post->id_ticket=$model->id;
             $post->created_by=Yii::$app->user->id;
-            $post->content=Yii::$app->getModule('ticket')->t('{USER} closed the ticket.', ['USER'=>Yii::$app->user->identity->fullname]);
+            $post->content=Yii::$app->getModule('support')->t('{USER} closed the ticket.', ['USER'=>Yii::$app->user->identity->fullname]);
             if($post->save()){
                 $model->status=Ticket::STATUS_CLOSED;
                 $model->save();

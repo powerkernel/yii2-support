@@ -4,7 +4,7 @@
  */
 
 use common\Core;
-use modernkernel\ticket\models\Ticket;
+use modernkernel\support\models\Ticket;
 
 
 $local = Core::isLocalhost();
@@ -35,7 +35,7 @@ $schedule->call(function (\yii\console\Application $app) {
 
     /* Result */
     if (empty($output)) {
-        $output = $app->getModule('ticket')->t('Nothing to do');
+        $output = $app->getModule('support')->t('Nothing to do');
     }
-    echo $app->getModule('ticket')->t(basename(__FILE__, '.php') . ': ' . $output . "\n\n");
+    echo $app->getModule('support')->t(basename(__FILE__, '.php') . ': ' . $output . "\n\n");
 })->cron($time);
