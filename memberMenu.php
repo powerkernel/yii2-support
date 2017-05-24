@@ -8,9 +8,15 @@
 
 
 use common\Core;
+use common\widgets\SideMenu;
 
-return [
-    ['label' => Yii::$app->getModule('support')->t('Ticket System')],
-    ['icon' => 'ticket', 'label' => Yii::$app->getModule('support')->t('My Tickets'), 'url' => ['/support/ticket/manage'], 'active' => Core::checkMCA('support', 'ticket', 'manage')],
-    ['icon' => 'question-circle', 'label' => Yii::$app->getModule('support')->t('Open Ticket'), 'url' => ['/support/ticket/create'], 'active' => Core::checkMCA('support', 'ticket', 'create')],
+$menu=[
+    'title'=>Yii::$app->getModule('support')->t('Ticket System'),
+    'icon'=> 'support',
+    'items'=>[
+        ['icon' => 'ticket', 'label' => Yii::$app->getModule('support')->t('My Tickets'), 'url' => ['/support/ticket/manage'], 'active' => Core::checkMCA('support', 'ticket', 'manage')],
+        ['icon' => 'question-circle', 'label' => Yii::$app->getModule('support')->t('Open Ticket'), 'url' => ['/support/ticket/create'], 'active' => Core::checkMCA('support', 'ticket', 'create')],
+    ],
 ];
+$menu['active']=SideMenu::isActive($menu['items']);
+return [$menu];
