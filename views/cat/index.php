@@ -48,7 +48,7 @@ $this->registerJs('$(document).on("pjax:send", function(){ $(".grid-view-overlay
                         //    'filter' => DatePicker::widget(['model' => $searchModel, 'attribute' => 'created_at', 'dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]),
                         //    'contentOptions'=>['style'=>'min-width: 80px']
                         //],
-                        ['attribute' => 'status', 'value' => function ($model){return $model->statusText;}, 'filter'=> Cat::getStatusOption()],
+                        ['attribute' => 'status', 'value' => function ($model){return $model->statusColorText;}, 'filter'=> Cat::getStatusOption(), 'format'=>'raw'],
                         ['class' => 'yii\grid\ActionColumn'],
                     ],
                 ]); ?>

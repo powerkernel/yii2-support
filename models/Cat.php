@@ -50,6 +50,22 @@ class Cat extends ActiveRecord
     }
 
     /**
+     * color status text
+     * @return mixed|string
+     */
+    public function getStatusColorText()
+    {
+        $status = $this->status;
+        if ($status == self::STATUS_ACTIVE) {
+            return '<span class="label label-success">' . $this->statusText . '</span>';
+        }
+        if ($status == self::STATUS_INACTIVE) {
+            return '<span class="label label-default">' . $this->statusText . '</span>';
+        }
+        return $this->statusText;
+    }
+
+    /**
      * get status text
      * @return string
      */
