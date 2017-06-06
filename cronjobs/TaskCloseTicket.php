@@ -16,8 +16,7 @@ $schedule->call(function (\yii\console\Application $app) {
     $point=time()-$period;
 
     $tickets = Ticket::find()
-        ->where(['status'=>Ticket::STATUS_WAITING])
-        ->andWhere('updated_at<:point', [':point'=>$point])
+        ->where('status=:status AND updated_at<:point', [':point'=>$point, ':status'=>Ticket::STATUS_WAITING])
         ->all();
 
     if ($tickets) {
