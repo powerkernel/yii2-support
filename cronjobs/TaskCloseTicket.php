@@ -12,11 +12,11 @@ $time = $local ? '* * * * *' : '0 20 * * *';
 
 
 $schedule->call(function (\yii\console\Application $app) {
-    $period=7*86400; // 7 days
-    $point=time()-$period;
+    $period = 7 * 86400; // 7 days
+    $point = time() - $period;
 
     $tickets = Ticket::find()
-        ->where('status=:status AND updated_at<:point', [':point'=>$point, ':status'=>Ticket::STATUS_WAITING])
+        ->where('status=:status AND updated_at<:point', [':point' => $point, ':status' => Ticket::STATUS_WAITING])
         ->all();
 
     if ($tickets) {
@@ -33,7 +33,7 @@ $schedule->call(function (\yii\console\Application $app) {
 
     /* Result */
     if (empty($output)) {
-        $output = $app->getModule('support')->t('Nothing to do');
+        $output = $app->getModule('support')->t('No ticket closed');
     }
     $log = new \common\models\TaskLog();
     $log->task = basename(__FILE__, '.php');
