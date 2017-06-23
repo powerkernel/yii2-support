@@ -32,13 +32,13 @@ $schedule->call(function (\yii\console\Application $app) {
 
 
     /* Result */
-    if (empty($output)) {
-        $output = $app->getModule('support')->t('No ticket closed');
+    if (!empty($output)) {
+        $log = new \common\models\TaskLog();
+        $log->task = basename(__FILE__, '.php');
+        $log->result = $output;
+        $log->save();
     }
-    $log = new \common\models\TaskLog();
-    $log->task = basename(__FILE__, '.php');
-    $log->result = $output;
-    $log->save();
+
     /* delete old logs never bad */
     $period = 30 * 24 * 60 * 60; // 30 days
     $point = time() - $period;
