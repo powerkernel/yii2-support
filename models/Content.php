@@ -10,23 +10,21 @@ namespace modernkernel\support\models;
 use common\models\Account;
 use common\models\Setting;
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "ticket_content".
  *
- * @property integer $id
- * @property integer $id_ticket
+ * @property integer|\MongoDB\BSON\ObjectID|string $id
+ * @property integer|\MongoDB\BSON\ObjectID|string $id_ticket
  * @property string $content
- * @property integer $created_by
- * @property integer $created_at
- * @property integer $updated_at
+ * @property integer|\MongoDB\BSON\ObjectID|string $created_by
+ * @property integer|\MongoDB\BSON\UTCDateTime $created_at
+ * @property integer|\MongoDB\BSON\UTCDateTime $updated_at
  *
  * @property Account $createdBy
  * @property Ticket $ticket
  */
-class Content extends ActiveRecord
+class Content extends ContentBase
 {
 
 
@@ -69,22 +67,13 @@ class Content extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return '{{%support_ticket_content}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['id_ticket', 'content'], 'required'],
-            [['id_ticket', 'created_by', 'created_at', 'updated_at'], 'integer'],
             [['content'], 'string'],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['id_ticket'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['id_ticket' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => Yii::$app->params['mongodb']['account'] ? '_id' : 'id']],
+            [['id_ticket'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['id_ticket' => Yii::$app->params['support']['db'] === 'mongodb' ? '_id' : 'id']],
         ];
     }
 
@@ -104,29 +93,28 @@ class Content extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getCreatedBy()
     {
-        return $this->hasOne(Account::className(), ['id' => 'created_by']);
+        if (Yii::$app->params['mongodb']['account']) {
+            return $this->hasOne(Account::className(), ['_id' => 'created_by']);
+        } else {
+            return $this->hasOne(Account::className(), ['id' => 'created_by']);
+        }
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getTicket()
     {
-        return $this->hasOne(Ticket::className(), ['id' => 'id_ticket']);
-    }
+        if (is_a($this, '\yii\mongodb\ActiveRecord')) {
+            return $this->hasOne(Ticket::className(), ['_id' => 'id_ticket']);
+        } else {
+            return $this->hasOne(Ticket::className(), ['id' => 'id_ticket']);
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
     }
 
     /**
@@ -140,7 +128,7 @@ class Content extends ActiveRecord
         if ($insert) {
             if ($this->created_by != $this->ticket->created_by) {
                 $email = $this->ticket->createdBy->email;
-                Yii::$app->language=$this->ticket->createdBy->language;
+                Yii::$app->language = $this->ticket->createdBy->language;
             } else {
                 $email = Setting::getValue('adminMail');
             }

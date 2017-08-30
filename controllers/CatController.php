@@ -143,7 +143,7 @@ class CatController extends BackendController
         $model = new Cat();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->id:$model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -163,7 +163,7 @@ class CatController extends BackendController
         $this->view->title = Yii::t('support', 'Update: {NAME}', ['NAME'=>$model->title]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->id:$model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

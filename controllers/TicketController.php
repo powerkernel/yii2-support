@@ -194,7 +194,7 @@ class TicketController extends Controller
                 $model->status=Ticket::STATUS_WAITING;
                 $model->save();
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->_id:$model->id]);
         }
 
 
@@ -218,7 +218,7 @@ class TicketController extends Controller
         $model->setScenario('create');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->_id:$model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -245,11 +245,13 @@ class TicketController extends Controller
             $post->content=Yii::$app->getModule('support')->t('{USER} closed the ticket.', ['USER'=>Yii::$app->user->identity->fullname]);
             if($post->save()){
                 $model->status=Ticket::STATUS_CLOSED;
-                $model->save();
+                if(!$model->save()){
+                    Yii::$app->session->setFlash('danger', json_encode($model->errors));
+                }
             }
         }
 
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->redirect(['view', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->_id:$model->id]);
     }
 
     /**

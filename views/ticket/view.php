@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif; ?>
 
                         <div class="timeline-item">
-                            <span class="time"><?= Icon::widget(['icon' => 'clock-o']) ?> <?= Yii::$app->formatter->asDatetime($post->created_at) ?></span>
+                            <span class="time"><?= Icon::widget(['icon' => 'clock-o']) ?> <?= Yii::$app->formatter->asDatetime($post->createdAt) ?></span>
                             <h3 class="timeline-header"><?= !empty($post->created_by) ? $post->createdBy->fullname : Yii::$app->getModule('support')->t('Ticket System') ?></h3>
                             <div class="timeline-body">
                                 <?= Yii::$app->formatter->asNtext($post->content) ?>
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('support', 'Reply'), ['class' => 'btn btn-primary']) ?>
                     <?php if($model->status!=Ticket::STATUS_CLOSED):?>
-                    <?= Html::a(Yii::t('support', 'Close'), ['close', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
+                    <?= Html::a(Yii::t('support', 'Close'), ['close', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->_id:$model->id], ['class' => 'btn btn-warning']) ?>
                     <?php endif;?>
                 </div>
                 <?php ActiveForm::end(); ?>

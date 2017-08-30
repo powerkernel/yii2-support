@@ -34,9 +34,9 @@ $this->registerJs('$(document).on("pjax:send", function(){ $(".grid-view-overlay
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        //['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'yii\grid\SerialColumn'],
 
-                        'id',
+                        //'id',
                         'title',
                         //'status',
                         //'created_at',

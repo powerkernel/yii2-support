@@ -10,31 +10,29 @@ namespace modernkernel\support\models;
 use common\models\Account;
 use common\models\Setting;
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "ticket_id".
+ * This is the model class for Ticket.
  *
- * @property integer $id
- * @property integer $cat
+ * @property integer|\MongoDB\BSON\ObjectID|string $id
+ * @property integer|\MongoDB\BSON\ObjectID|string $cat
  * @property string $title
  * @property integer $status
- * @property integer $created_by
- * @property integer $created_at
- * @property integer $updated_at
+ * @property integer|\MongoDB\BSON\ObjectID|string $created_by
+ * @property integer|\MongoDB\BSON\UTCDateTime $created_at
+ * @property integer|\MongoDB\BSON\UTCDateTime $updated_at
  *
  * @property Content[] $contents
  * @property Cat $category
  * @property Account $createdBy
  */
-class Ticket extends ActiveRecord
+class Ticket extends TicketBase
 {
 
 
-    const STATUS_OPEN = 10;
-    const STATUS_WAITING = 20;
-    const STATUS_CLOSED = 30;
+    const STATUS_OPEN = 'STATUS_OPEN';
+    const STATUS_WAITING = 'STATUS_WAITING';
+    const STATUS_CLOSED = 'STATUS_CLOSED';
 
     public $content;
 
@@ -75,35 +73,28 @@ class Ticket extends ActiveRecord
      * get status text
      * @return string
      */
-    public function getStatusColorText(){
+    public function getStatusColorText()
+    {
         $status = $this->status;
         $list = self::getStatusOption();
 
-        $color='default';
-        if($status==self::STATUS_CLOSED){
-            $color='danger';
+        $color = 'default';
+        if ($status == self::STATUS_CLOSED) {
+            $color = 'danger';
         }
-        if($status==self::STATUS_OPEN){
-            $color='primary';
+        if ($status == self::STATUS_OPEN) {
+            $color = 'primary';
         }
-        if($status==self::STATUS_WAITING){
-            $color='warning';
+        if ($status == self::STATUS_WAITING) {
+            $color = 'warning';
         }
 
         if (!empty($status) && in_array($status, array_keys($list))) {
-            return '<span class="label label-'.$color.'">'.$list[$status].'</span>';
+            return '<span class="label label-' . $color . '">' . $list[$status] . '</span>';
         }
-        return '<span class="label label-'.$color.'">'.Yii::$app->getModule('support')->t('Unknown').'</span>';
+        return '<span class="label label-' . $color . '">' . Yii::$app->getModule('support')->t('Unknown') . '</span>';
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%support_ticket_head}}';
-    }
 
     /**
      * @inheritdoc
@@ -111,11 +102,15 @@ class Ticket extends ActiveRecord
     public function rules()
     {
         return [
-            [['cat', 'status', 'created_by', 'created_at', 'updated_at'], 'integer'],
+            [['status'], 'default', 'value' => self::STATUS_OPEN],
+
             [['title', 'cat',], 'required'],
             [['title'], 'string', 'max' => 255],
-            [['cat'], 'exist', 'skipOnError' => true, 'targetClass' => Cat::className(), 'targetAttribute' => ['cat' => 'id']],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => 'id']],
+
+            [['status'], 'string'],
+
+            [['cat'], 'exist', 'skipOnError' => true, 'targetClass' => Cat::className(), 'targetAttribute' => ['cat' => Yii::$app->params['support']['db'] === 'mongodb' ? '_id' : 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => Yii::$app->params['mongodb']['account'] ? '_id' : 'id']],
 
             /* custom */
             [['content'], 'required', 'on' => ['create']],
@@ -140,37 +135,42 @@ class Ticket extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getContents()
     {
-        return $this->hasMany(Content::className(), ['id_ticket' => 'id']);
+        if (is_a($this, '\yii\mongodb\ActiveRecord')) {
+            return $this->hasMany(Content::className(), ['id_ticket' => '_id']);
+        } else {
+            return $this->hasMany(Content::className(), ['id_ticket' => 'id']);
+        }
+
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getCategory()
     {
-        return $this->hasOne(Cat::className(), ['id' => 'cat']);
+        if (is_a($this, '\yii\mongodb\ActiveRecord')) {
+            return $this->hasOne(Cat::className(), ['_id' => 'cat']);
+        } else {
+            return $this->hasOne(Cat::className(), ['id' => 'cat']);
+        }
+
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQueryInterface
      */
     public function getCreatedBy()
     {
-        return $this->hasOne(Account::className(), ['id' => 'created_by']);
-    }
+        if (Yii::$app->params['mongodb']['account']) {
+            return $this->hasOne(Account::className(), ['_id' => 'created_by']);
+        } else {
+            return $this->hasOne(Account::className(), ['id' => 'created_by']);
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
     }
 
     /**
@@ -198,9 +198,9 @@ class Ticket extends ActiveRecord
             $ticketContent->id_ticket = $this->id;
             $ticketContent->content = $this->content;
             $ticketContent->created_by = Yii::$app->user->id;
-            if($ticketContent->save()){
+            if ($ticketContent->save()) {
                 /* send email */
-                $subject=Yii::$app->getModule('support')->t('You\'ve received a ticket');
+                $subject = Yii::$app->getModule('support')->t('You\'ve received a ticket');
                 Yii::$app->mailer
                     ->compose(
                         [
@@ -222,27 +222,41 @@ class Ticket extends ActiveRecord
      * get ticket url
      * @param bool $absolute
      */
-    public function getUrl($absolute=false){
-        $act='createUrl';
-        if($absolute){
-            $act='createAbsoluteUrl';
+    public function getUrl($absolute = false)
+    {
+        $act = 'createUrl';
+        if ($absolute) {
+            $act = 'createAbsoluteUrl';
         }
-        return Yii::$app->urlManagerFrontend->$act(['/support/ticket/view', 'id'=>$this->id]);
+        return Yii::$app->urlManagerFrontend->$act(['/support/ticket/view', 'id' => $this->id]);
     }
 
     /**
      * system closes ticket
      */
-    public function close(){
-        if($this->status!=Ticket::STATUS_CLOSED){
-            $post=new Content();
-            $post->id_ticket=$this->id;
-            $post->created_by=null;
-            $post->content=Yii::$app->getModule('support')->t('Ticket was closed automatically due to inactivity.');
-            if($post->save()){
-                $this->status=Ticket::STATUS_CLOSED;
+    public function close()
+    {
+        if ($this->status != Ticket::STATUS_CLOSED) {
+            $post = new Content();
+            $post->id_ticket = $this->id;
+            $post->created_by = null;
+            $post->content = Yii::$app->getModule('support')->t('Ticket was closed automatically due to inactivity.');
+            if ($post->save()) {
+                $this->status = Ticket::STATUS_CLOSED;
                 $this->save();
             }
         }
+    }
+
+    /**
+     * @inheritdoc
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        foreach ($this->contents as $content) {
+            $content->delete();
+        }
+        return parent::beforeDelete(); // TODO: Change the autogenerated stub
     }
 }

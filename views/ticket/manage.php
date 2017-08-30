@@ -32,9 +32,9 @@ $this->registerJs('$(document).on("pjax:send", function(){ $(".grid-view-overlay
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        //['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'yii\grid\SerialColumn'],
 
-                        'id',
+                        //'id',
                         ['attribute' => 'cat', 'value' => function ($model) {
                             return $model->category->title;
                         }, 'filter' => Cat::getCatList()],
@@ -48,7 +48,7 @@ $this->registerJs('$(document).on("pjax:send", function(){ $(".grid-view-overlay
                         ['attribute' => 'status', 'value' => function ($model){return $model->statusColorText;}, 'filter'=> Ticket::getStatusOption(), 'format'=>'raw'],
                         [
                             'attribute' => 'created_at',
-                            'value' => 'created_at',
+                            'value' => 'createdAt',
                             'format' => 'dateTime',
                             'filter' => DatePicker::widget(['model' => $searchModel, 'attribute' => 'created_at', 'dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]),
                             'contentOptions' => ['style' => 'min-width: 80px']

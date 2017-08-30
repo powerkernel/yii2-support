@@ -21,7 +21,7 @@ class m170511_080718_init extends Migration
         $this->createTable('{{%support_cat}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'status' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
@@ -30,7 +30,7 @@ class m170511_080718_init extends Migration
             'id' => $this->primaryKey(),
             'cat'=> $this->integer()->null()->defaultValue(null),
             'title' => $this->string()->notNull(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'status' => $this->string()->notNull(),
             'created_by' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

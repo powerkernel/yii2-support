@@ -24,25 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box box-info">
         <div class="box-body">
             <div class="table-responsive">
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            ['attribute' => 'status', 'value' => $model->statusText],
-            'created_at:date',
-            'updated_at:date',
-        ],
-    ]) ?>
+                <?= DetailView::widget([
+                    'model' => $model,
+                    'attributes' => [
+                        'id',
+                        'title',
+                        ['attribute' => 'status', 'value' => $model->statusText],
+                        'createdAt:date',
+                        'updatedAt:date',
+                    ],
+                ]) ?>
             </div>
             <p>
-                <?= Html::a(Yii::t('support', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a(Yii::t('support', 'Delete'), ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                'confirm' => Yii::t('support', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-                ],
+                <?= Html::a(Yii::t('support', 'Update'), ['update', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->id:$model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('support', 'Delete'), ['delete', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->id:$model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('support', 'Are you sure you want to delete this item?'),
+                        'method' => 'post',
+                    ],
                 ]) ?>
             </p>
         </div>
