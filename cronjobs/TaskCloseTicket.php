@@ -15,9 +15,20 @@ $schedule->call(function (\yii\console\Application $app) {
     $period = 7 * 86400; // 7 days
     $point = time() - $period;
 
-    $tickets = Ticket::find()
-        ->where('status=:status AND updated_at<:point', [':point' => $point, ':status' => Ticket::STATUS_WAITING])
-        ->all();
+    if(Yii::$app->params['support']['db']==='mongodb'){
+        $tickets = Ticket::find()
+            ->where([
+                'status'=>Ticket::STATUS_WAITING,
+                'updated_at'=>['$lt'=>new \MongoDB\BSON\UTCDateTime($point*1000)]
+            ])
+            ->all();
+    }
+    else {
+        $tickets = Ticket::find()
+            ->where('status=:status AND updated_at<:point', [':point' => $point, ':status' => Ticket::STATUS_WAITING])
+            ->all();
+    }
+
 
     if ($tickets) {
         $ids = [];
