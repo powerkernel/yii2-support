@@ -28,8 +28,6 @@ class MigrateController extends \yii\console\Controller
                 'updated_at' => new UTCDateTime($row['updated_at']*1000),
             ]);
         }
-        /* settings */
-
         echo "Cat migration completed.\n";
     }
 }
