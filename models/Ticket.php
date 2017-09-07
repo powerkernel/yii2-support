@@ -228,7 +228,7 @@ class Ticket extends TicketBase
         if ($absolute) {
             $act = 'createAbsoluteUrl';
         }
-        return Yii::$app->urlManagerFrontend->$act(['/support/ticket/view', 'id' => $this->id]);
+        return Yii::$app->urlManagerFrontend->$act(['support/ticket/view', 'id' => (string)$this->id]);
     }
 
     /**
