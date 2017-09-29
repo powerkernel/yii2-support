@@ -15,7 +15,7 @@ $schedule->call(function (\yii\console\Application $app) {
     $period = 7 * 86400; // 7 days
     $point = time() - $period;
 
-    if(Yii::$app->params['support']['db']==='mongodb'){
+    if(Yii::$app->getModule('support')->params['db']==='mongodb'){
         $tickets = Ticket::find()
             ->where([
                 'status'=>Ticket::STATUS_WAITING,
@@ -65,4 +65,5 @@ $schedule->call(function (\yii\console\Application $app) {
             ':point' => $point
         ]);
     }
+    unset($app);
 })->cron($time);

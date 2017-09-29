@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Harry Tang <harry@modernkernel.com>
- * @link https://modernkernel.com
- * @copyright Copyright (c) 2017 Modern Kernel
+ * @author Harry Tang <harry@powerkernel.com>
+ * @link https://powerkernel.com
+ * @copyright Copyright (c) 2017 Power Kernel
  */
 
 namespace modernkernel\support\models;
@@ -73,7 +73,7 @@ class Content extends ContentBase
             [['id_ticket', 'content'], 'required'],
             [['content'], 'string'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['created_by' => Yii::$app->params['mongodb']['account'] ? '_id' : 'id']],
-            [['id_ticket'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['id_ticket' => Yii::$app->params['support']['db'] === 'mongodb' ? '_id' : 'id']],
+            [['id_ticket'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['id_ticket' => Yii::$app->getModule('support')->params['db'] === 'mongodb' ? '_id' : 'id']],
         ];
     }
 
