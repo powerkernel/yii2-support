@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($reply, 'content')->textarea(['rows' => 8])->label(false) ?>
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('support', 'Reply'), ['class' => 'btn btn-primary']) ?>
+                    <?= \common\components\SubmitButton::widget(['text'=>Yii::t('support', 'Reply'), 'options'=>['class' => 'btn btn-primary']]) ?>
                     <?php if($model->status!=Ticket::STATUS_CLOSED):?>
                     <?= Html::a(Yii::t('support', 'Close'), ['close', 'id' => is_a($model, '\yii\mongodb\ActiveRecord')?(string)$model->_id:$model->id], ['class' => 'btn btn-warning']) ?>
                     <?php endif;?>
