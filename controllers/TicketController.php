@@ -8,19 +8,19 @@
 namespace modernkernel\support\controllers;
 
 use common\components\BackendFilter;
+use common\components\MainController;
 use modernkernel\support\models\Content;
 use Yii;
 use modernkernel\support\models\Ticket;
 use modernkernel\support\models\TicketSearch;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
  */
-class TicketController extends Controller
+class TicketController extends MainController
 {
     /**
      * @inheritdoc
