@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 
-/* @var $model \modernkernel\support\models\Ticket */
+/* @var $model \powerkernel\support\models\Ticket */
 
 ?>
 <div itemscope="" itemtype="http://schema.org/EmailMessage">

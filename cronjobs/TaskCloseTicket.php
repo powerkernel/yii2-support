@@ -4,7 +4,7 @@
  */
 
 use common\Core;
-use modernkernel\support\models\Ticket;
+use powerkernel\support\models\Ticket;
 
 
 $local = Core::isLocalhost();

@@ -1,6 +1,6 @@
 <?php
 
-namespace modernkernel\support;
+namespace powerkernel\support;
 
 use Yii;
 
@@ -12,7 +12,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'modernkernel\support\controllers';
+    public $controllerNamespace = 'powerkernel\support\controllers';
 
     /**
      * @inheritdoc

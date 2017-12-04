@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-namespace modernkernel\support\controllers;
+namespace powerkernel\support\controllers;
 
 use common\components\BackendFilter;
 use common\components\MainController;
-use modernkernel\support\models\Content;
+use powerkernel\support\models\Content;
 use Yii;
-use modernkernel\support\models\Ticket;
-use modernkernel\support\models\TicketSearch;
+use powerkernel\support\models\Ticket;
+use powerkernel\support\models\TicketSearch;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

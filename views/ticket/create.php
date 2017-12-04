@@ -6,7 +6,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\support\models\Ticket */
+/* @var $model powerkernel\support\models\Ticket */
 
 
 /* breadcrumbs */

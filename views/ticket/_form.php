@@ -5,12 +5,11 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-use modernkernel\support\models\Cat;
-use yii\helpers\Html;
+use powerkernel\support\models\Cat;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\support\models\Ticket */
+/* @var $model powerkernel\support\models\Ticket */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

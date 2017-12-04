@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\support\models\CatSearch */
+/* @var $model powerkernel\support\models\CatSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

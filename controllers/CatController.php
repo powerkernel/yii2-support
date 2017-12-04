@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-namespace modernkernel\support\controllers;
+namespace powerkernel\support\controllers;
 
 use backend\controllers\BackendController;
 use Yii;
-use modernkernel\support\models\Cat;
-use modernkernel\support\models\CatSearch;
+use powerkernel\support\models\Cat;
+use powerkernel\support\models\CatSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

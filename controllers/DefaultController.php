@@ -1,6 +1,6 @@
 <?php
 
-namespace modernkernel\support\controllers;
+namespace powerkernel\support\controllers;
 
 use backend\controllers\BackendController;
 

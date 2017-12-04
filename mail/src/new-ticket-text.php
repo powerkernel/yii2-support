@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model \modernkernel\support\models\Ticket */
+/* @var $model \powerkernel\support\models\Ticket */
 ?>
 
 <?= Yii::$app->getModule('support')->t('Hello Admin,') ?>

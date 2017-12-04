@@ -5,15 +5,15 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-use modernkernel\fontawesome\Icon;
-use modernkernel\support\models\Ticket;
+use powerkernel\fontawesome\Icon;
+use powerkernel\support\models\Ticket;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\support\models\Ticket */
-/* @var $reply modernkernel\support\models\Content */
+/* @var $model powerkernel\support\models\Ticket */
+/* @var $reply powerkernel\support\models\Content */
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

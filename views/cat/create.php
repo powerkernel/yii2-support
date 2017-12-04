@@ -6,7 +6,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model modernkernel\support\models\Cat */
+/* @var $model powerkernel\support\models\Cat */
 
 
 /* breadcrumbs */

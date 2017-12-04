@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model \modernkernel\support\models\Content */
+/* @var $model \powerkernel\support\models\Content */
 
 ?>
 <div itemscope itemtype="http://schema.org/EmailMessage">

@@ -5,13 +5,13 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-namespace modernkernel\support\console;
+namespace powerkernel\support\console;
 use MongoDB\BSON\UTCDateTime;
 use yii\db\Query;
 
 /**
  * Class MigrateController
- * @package modernkernel\contact\console
+ * @package powerkernel\contact\console
  */
 class MigrateController extends \yii\console\Controller
 {

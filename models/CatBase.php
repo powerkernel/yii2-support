@@ -6,7 +6,7 @@
  */
 
 
-namespace modernkernel\support\models;
+namespace powerkernel\support\models;
 
 
 use Yii;

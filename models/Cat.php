@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2017 Power Kernel
  */
 
-namespace modernkernel\support\models;
+namespace powerkernel\support\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;

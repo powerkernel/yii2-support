@@ -6,7 +6,7 @@
  */
 
 
-namespace modernkernel\support\models;
+namespace powerkernel\support\models;
 
 use common\models\Account;
 use MongoDB\BSON\UTCDateTime;
@@ -15,7 +15,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * TicketSearch represents the model behind the search form about `modernkernel\ticket\models\Ticket`.
+ * TicketSearch represents the model behind the search form about `powerkernel\ticket\models\Ticket`.
  */
 class TicketSearch extends Ticket
 {

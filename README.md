@@ -10,20 +10,20 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist modernkernel/yii2-support "*"
+php composer.phar require --prefer-dist powerkernel/yii2-support "*"
 ```
 
 or add
 
 ```
-"modernkernel/yii2-support": "*"
+"powerkernel/yii2-support": "*"
 ```
 
 to the require section of your `composer.json` file.
 
 
 ```
-php yii migrate --interactive=0 --migrationPath=@vendor/modernkernel/yii2-support/migrations/ --migrationTable={{%support_migration}}
+php yii migrate --interactive=0 --migrationPath=@vendor/powerkernel/yii2-support/migrations/ --migrationTable={{%support_migration}}
 ```
 
 
